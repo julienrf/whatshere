@@ -5,11 +5,11 @@ import play.api.mvc.{Action, Controller}
 
 class Authentication extends Controller {
 
-  def login(redirectTo: String) = Action {
-    Ok // TODO Login view
+  val login = Action {
+    Ok(wh.html.login())
   }
 
-  def authenticate(redirectTo: String) = Action {
+  val authenticate = Action {
     NotImplemented
   }
 

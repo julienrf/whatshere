@@ -1,6 +1,6 @@
-GET      /login               wh.controllers.Authentication.login(redirectTo)
+GET      /login               wh.controllers.Authentication.login
 GET      /logout              wh.controllers.Authentication.logout
-GET      /authenticate        wh.controllers.Authentication.authenticate(redirectTo)
+GET      /authenticate        wh.controllers.Authentication.authenticate
 
 GET      /                    wh.controllers.WhatsHere.list
 GET      /recommendations     wh.controllers.WhatsHere.recommendations
