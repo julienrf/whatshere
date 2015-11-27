@@ -18,7 +18,7 @@ class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSuppor
   /** Show the list of recommended locations for the current user */
   val recommendations = Authenticated { request =>
     val predictionsMap = predictions.predict(request.user, Locations.current.locations, Ratings.current.single.apply())
-    val list = predictionsMap.toList.sortBy(_._2)
+    val list = predictionsMap.toList.sortBy(_._2).reverse
     Ok(wh.html.recommandation(list, Some(request.user)))
   }
 
