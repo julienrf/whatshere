@@ -2,9 +2,9 @@ package wh.models
 
 object predictions {
 
-  val minRate = 1.0
+  val minRate = 0.0
   val maxRate = 5.0
-  val neutralRate = (maxRate + minRate) / 2
+  val neutralRate = (maxRate - minRate) / 2 + minRate
 
   /**
     * @return Predicted ratings for a given user, locations and existing ratings.

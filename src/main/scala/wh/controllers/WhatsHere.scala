@@ -29,7 +29,7 @@ class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSuppor
     }
   }
 
-  val rateForm = Form(single("rate" -> number(min = 1, max = 5)))
+  val rateForm = Form(single("rate" -> number(min = 0, max = 5)))
 
   /** Add the fact that the user rated the given location */
   def rate(locationName: String) = Authenticated { implicit request =>
