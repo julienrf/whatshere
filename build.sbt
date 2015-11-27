@@ -8,9 +8,7 @@ enablePlugins(PlayScala)
 
 disablePlugins(PlayLayoutPlugin)
 
-enablePlugins(SbtWeb)
-
-LessKeys.rootpath := "/src/mail/assets/stylesheets/"
+includeFilter in (Assets, LessKeys.less) := "toto.less"
 
 routesGenerator := InjectedRoutesGenerator
 
