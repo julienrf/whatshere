@@ -1,9 +1,17 @@
-@(locationName: String)
+@(locationName: String, rateForm: Form[Int])(implicit messages: Messages)
 
 @layout {
-  <h2>Details du lieu: @locationName</h2>
+  <h2>Details du lieu: @{locationName.replaceAll("&", " ")}</h2>
 
   <p>
     Un endroit vraiment stylé.
   </p>
+
+  @helper.form(action = Call("POST", s"/$locationName/rate")){
+
+    @helper.inputText(rateForm("rate"))
+
+    <input type="submit">
+
+  }
 }
