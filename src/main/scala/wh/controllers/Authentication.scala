@@ -26,7 +26,7 @@ class Authentication extends Controller {
   }
 
   val logout = Action { implicit request =>
-    Redirect(routes.WhatsHere.list()).removingFromSession(Authentication.authKey)
+    Redirect(routes.WhatsHere.recommendations()).removingFromSession(Authentication.authKey)
   }
 
 }

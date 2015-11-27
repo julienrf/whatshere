@@ -4,10 +4,12 @@
 
 @layout(user) {
   <h2>Des lieux cools pour vous :</h2>
-  <ul>
-  @for(place <- list){
-    <li><a href="/@{place._1.name}">@{place._1.name}</a><span>@{place._2}</span></li>
-  }
-  </ul>
+  <div class="list">
+    <ul>
+    @for((place, score) <- list){
+      <li><a href="@wh.controllers.routes.WhatsHere.show(place.name)">@{place.name}</a> <span>(pertinence&nbsp;: @{(score * 100 / 5).round}%)</span></li>
+    }
+    </ul>
+  </div>
 
 }
