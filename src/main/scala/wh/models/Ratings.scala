@@ -22,7 +22,8 @@ object Ratings {
       List(
         Locations.current.findByName("Tour Eiffel").map(Rating(User("Julien"), _, 1)),
         Locations.current.findByName("Les Champs Élysées").map(Rating(User("Julien"), _, 0)),
-        Locations.current.findByName("Le Mal Barré").map(Rating(User("Julien"), _, 4))/*,
+        Locations.current.findByName("Le Mal Barré").map(Rating(User("Julien"), _, 4)),
+        Locations.current.findByName("Canal Saint-Martin").map(Rating(User("Julien"), _, 4))/*,
         Locations.current.findByName("Le Mal Barré").map(Rating(User("Thomas"), _, 5))*/
       ).flatten
     )
