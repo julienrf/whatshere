@@ -18,11 +18,9 @@ object Ratings {
   val current = Ref(Ratings(Nil))
 
   def getRate(locationName: String): Int = {
-    println(current.single.get.ratings)
     val rates = current.single.get.ratings
       .filter(_.location.name.toLowerCase == locationName.toLowerCase().replaceAll("&", " "))
       .map(_.rate)
-    println(rates)
     if(rates.nonEmpty) rates.sum / rates.length else 0
   }
 
