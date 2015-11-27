@@ -2,7 +2,7 @@
 @(locationName: String, rateForm: Form[Int])(implicit messages: Messages)
 
 @layout {
-  <h2>Details du lieu: locationName</h2>
+  <h2>Details du lieu: @locationName</h2>
   <h3>Note: @{Ratings.getRate(locationName)}</h3>
 
   <p>
