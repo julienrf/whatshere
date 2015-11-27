@@ -20,7 +20,7 @@
   </head>
   <body>
       <div class="header">
-          <h1>What's Here ?</h1>
+          <h1><a href="@wh.controllers.routes.WhatsHere.recommendations()">What's Here ?</a></h1>
           @user.map { case u =>
             <span>Bonjour @u.name, trouve un endroit cool pas loin de toi&nbsp;!</span>
           }
