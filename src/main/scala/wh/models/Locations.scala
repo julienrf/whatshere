@@ -2,7 +2,7 @@ package wh.models
 
 case class Locations(locations: List[Location]) {
   def findByName(name: String): Option[Location] =
-    locations.find(name.toLowerCase.replaceAll("&", " ") == _.name.toLowerCase())
+    locations.find(name == _.name)
 }
 
 object Locations {

@@ -1,7 +1,5 @@
 package wh.controllers
 
-import javax.inject.Inject
-
 import play.api.data.Form
 import play.api.data.Forms.{single, number}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -10,7 +8,7 @@ import wh.controllers.Authentication.Authenticated
 import wh.models.{Location, Locations, Ratings}
 
 
-class WhatsHere @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   /** (temporary) Show all registered locations */
   val list = Authenticated {

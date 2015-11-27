@@ -5,7 +5,7 @@
   <div class="list">
     <ul>
     @for(place <- Locations.current.locations){
-      <li><a href="/@{place.name.replaceAll(" ", "&")}">@{place.name}</a></li>
+      <li><a href="@wh.controllers.routes.WhatsHere.show(place.name)">@{place.name}</a></li>
     }
     </ul>
   </div>
