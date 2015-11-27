@@ -15,7 +15,16 @@ case class Ratings(ratings: List[Rating]) {
 
 object Ratings {
 
-  val current = Ref(Ratings(Nil))
+  val current =
+    Ref(
+      Ratings(
+        List(
+          Rating(User("Julien"), Location("Tour Eiffel"), 1),
+          Rating(User("Julien"), Location("Le Mal Barré"), 4),
+          Rating(User("Thomas"), Location("Le Mal Barré"), 5)
+       )
+     )
+    )
 
   def getRate(locationName: String): Int = {
     val rates = current.single.get.ratings

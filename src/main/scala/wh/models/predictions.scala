@@ -3,8 +3,8 @@ package wh.models
 object predictions {
 
   val minRate = 1.0
-  val maxRate = 1.0
-  val averageRate = (maxRate + minRate) / 2
+  val maxRate = 5.0
+  val neutralRate = (maxRate + minRate) / 2
 
   /**
     * @return Predicted ratings for a given user, locations and existing ratings.
@@ -32,32 +32,31 @@ object predictions {
         // Distance between user and others
         val othersRatings = knownLocationsRatings - user
 
-        val distances: Map[User, Double] = {
-          val rawDistances: Map[User, Double] =
-            othersRatings.mapValues(rs => distance(userRatings.map(_._2), rs.map(_._2)))
-          val minDistance = rawDistances.values.min
-          val maxDistance = rawDistances.values.max
-          rawDistances.mapValues(d => (d - minDistance) / (maxDistance - minDistance)) // Normalization so that each distance is a number between 0 and 1
-        }
+        val distances: Map[User, Double] =
+          normalize(othersRatings.mapValues(rs => distance(userRatings.map(_._2), rs.map(_._2))))
 
         val weightedLocations: Map[Location, Double] =
-          othersRatings.to[Seq]
-            .flatMap { case (other, rs) =>
-              rs.map { case (location, rate) => (location, rate / (0.5 + distances.getOrElse(other, 0.5))) }
-            }.groupBy(_._1)
-            .mapValues(rs => rs.map(_._2).sum / rs.size)
+          normalize(
+            othersRatings.to[Seq]
+              .flatMap { case (other, rs) =>
+                rs.map { case (location, rate) => (location, rate / (0.5 + distances.getOrElse(other, 0.5))) }
+              }.groupBy(_._1)
+              .mapValues(rs => rs.map(_._2).sum / rs.size),
+            min = 1,
+            max = 5
+          )
 
         locations.map { location =>
           userRatings
             .find { case (l, r) => l == location }
             .map { case (l, r) => (l, r.toDouble) }
             .getOrElse {
-              location -> weightedLocations.getOrElse(location, 2.5)
+              location -> weightedLocations.getOrElse(location, neutralRate)
             }
         }.toMap
       case None =>
         // No information from current user: return an average note for all locations
-        locations.map((_, averageRate)).toMap
+        locations.map((_, neutralRate)).toMap
     }
   }
 
@@ -69,6 +68,12 @@ object predictions {
         .map { case (a1, a2) => (a2 - a1) * (a2 - a1) }
         .sum
     )
+  }
+
+  def normalize[A](map: Map[A, Double], min: Double = 0, max: Double = 1): Map[A, Double] = {
+    val minValue = map.values.min
+    val maxValue = map.values.max
+    map.mapValues(x => ((x - minValue) / (maxValue - minValue)) * (max - min) + min)
   }
 
 }
