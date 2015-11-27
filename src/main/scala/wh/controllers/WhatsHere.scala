@@ -7,15 +7,14 @@ import play.api.data.Forms.{single, number}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import wh.controllers.Authentication.Authenticated
-import wh.models.{Locations, Ratings}
+import wh.models.{Location, Locations, Ratings}
 
 
 class WhatsHere @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   /** (temporary) Show all registered locations */
   val list = Authenticated {
-    val list = Seq("Chez moi", "Chez ma maman", "Dans un bar")
-    Ok(wh.html.list(list))
+    Ok(wh.html.list())
   }
 
   /** Show the list of recommended locations for the current user */
@@ -26,8 +25,10 @@ class WhatsHere @Inject()(val messagesApi: MessagesApi) extends Controller with 
 
   /** Show the details of one location, so that the user can like it */
   def show(locationName: String) = Authenticated {
-
-    Ok(wh.html.show(locationName, rateForm))
+    Locations.current.findByName(locationName) match {
+      case None => NotFound
+      case Some(location) => Ok(wh.html.show(locationName, rateForm))
+    }
   }
 
   val rateForm = Form(single("rate" -> number(min = 1, max = 5)))

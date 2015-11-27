@@ -1,8 +1,9 @@
-@(list: Seq[String])
+@import wh.models.Locations
+@()
 
 @layout {
   <ul>
-  @for(place <- list){
+  @for(place <- Locations.current.locations){
     <li>@place</li>
   }
   </ul>

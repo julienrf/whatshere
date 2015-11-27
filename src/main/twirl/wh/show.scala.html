@@ -1,7 +1,9 @@
+@import wh.models.Ratings
 @(locationName: String, rateForm: Form[Int])(implicit messages: Messages)
 
 @layout {
   <h2>Details du lieu: @{locationName.replaceAll("&", " ")}</h2>
+  <h3>Note: @{Ratings.getRate(locationName)}</h3>
 
   <p>
     Un endroit vraiment stylé.
