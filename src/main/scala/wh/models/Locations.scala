@@ -10,9 +10,9 @@ object Locations {
   val current =
     Locations(
       List(
-        Location("Canal Saint-Martin"),
-        Location("Le Mal Barré"),
-        Location("Tour Eiffel")
+        Location("Canal Saint-Martin", description = "Un endroit bien sympathique pour prendre une bière au bord de l'eau."),
+        Location("Le Mal Barré", description = "Burgers originaux, potatoes et cupcakes faits maison proposés dans un cadre chaleureux avec terrasse sur rue."),
+        Location("Tour Eiffel", description = "Impossible de visiter Paris sans passer devant.")
       )
     )
 

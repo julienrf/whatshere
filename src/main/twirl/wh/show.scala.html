@@ -1,4 +1,5 @@
 @import wh.models.Ratings
+@import wh.models.Locations
 @import wh.models.User
 @(locationName: String, user: Option[User])(implicit messages: Messages)
 
@@ -7,7 +8,7 @@
   <h3>Note moyenne: @{Ratings.getRate(locationName)}</h3>
 
   <p>
-    Un endroit vraiment stylé.
+    @Locations.current.findByName(locationName).fold("Un endroit vraiment stylé.")(_.description)
   </p>
 
   <script>
