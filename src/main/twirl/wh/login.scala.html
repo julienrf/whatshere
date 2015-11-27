@@ -1,5 +1,6 @@
+@(redirectTo: String)
 @layout {
-  @helper.form(wh.controllers.routes.Authentication.authenticate()) {
+  @helper.form(wh.controllers.routes.Authentication.authenticate(redirectTo)) {
       <input type="text" placeholder="Username" name="username">
       <button>Log in</button>
   }

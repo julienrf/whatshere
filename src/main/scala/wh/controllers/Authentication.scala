@@ -1,20 +1,27 @@
 package wh.controllers
 
+import play.api.data.Form
+import play.api.data.Forms.{single, nonEmptyText}
 import play.api.mvc.Security.AuthenticatedBuilder
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Results, Action, Controller}
 
 class Authentication extends Controller {
 
-  val login = Action {
-    Ok(wh.html.login())
+  def login(redirectTo: String) = Action {
+    Ok(wh.html.login(redirectTo))
   }
 
-  val authenticate = Action {
-    NotImplemented
+  val authenticationForm = Form(single("username" -> nonEmptyText))
+
+  def authenticate(redirectTo: String) = Action { implicit request =>
+    authenticationForm.bindFromRequest().fold(
+      error => BadRequest(wh.html.login(redirectTo)),
+      username => Redirect(redirectTo).addingToSession(Authentication.authKey -> username)
+    )
   }
 
   val logout = Action { implicit request =>
-    NotImplemented.removingFromSession(Authentication.authKey)
+    Redirect(routes.WhatsHere.list()).removingFromSession(Authentication.authKey)
   }
 
 }
@@ -25,6 +32,9 @@ object Authentication {
 
   type AuthenticatedRequest[Payload] = play.api.mvc.Security.AuthenticatedRequest[Payload, String]
 
-  object Authenticated extends AuthenticatedBuilder[String](_.session.get(authKey))
+  object Authenticated extends AuthenticatedBuilder[String](
+    userinfo = _.session.get(authKey),
+    onUnauthorized = request => Results.Redirect(routes.Authentication.login(request.uri))
+  )
 
 }
