@@ -2,10 +2,12 @@
 @()
 
 @layout {
-  <ul>
-  @for(place <- Locations.current.locations){
-    <a href="/@{place.name.replaceAll(" ", "&")}">@{place.name}</a>
-  }
-  </ul>
+  <div class="list">
+    <ul>
+    @for(place <- Locations.current.locations){
+      <li><a href="/@{place.name.replaceAll(" ", "&")}">@{place.name}</a></li>
+    }
+    </ul>
+  </div>
 
 }

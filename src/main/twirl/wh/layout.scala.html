@@ -6,14 +6,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
 
-    <link rel="stylesheet" type="text/css" href="../../assets/normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../assets/toto.css">
+    <link href="@routes.Assets.versioned("stylesheets/toto.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("stylesheets/normalize.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("stylesheets/header.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("stylesheets/content.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("stylesheets/list.css")" rel="stylesheet">
 
-      <script src="../../assets/vanilla.js"></script>
+      <script src="../../assets/scripts/vanilla.js"></script>
 
     <title>What’s Here?</title>
   </head>
   <body>
-    @body
+      <div class="header">What's Here ?</div>
+      <div class="content">
+          @body
+      </div>
   </body>
 </html>

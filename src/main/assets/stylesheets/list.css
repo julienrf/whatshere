@@ -1,0 +1,11 @@
+.list ul li {
+    font-size: 28px;
+    text-decoration: none;
+    width: 100%;
+    padding-bottom: 12px;
+}
+
+.list ul li a {
+    text-decoration: none;
+    color: #222222;
+}

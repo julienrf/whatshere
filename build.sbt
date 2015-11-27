@@ -8,6 +8,10 @@ enablePlugins(PlayScala)
 
 disablePlugins(PlayLayoutPlugin)
 
+enablePlugins(SbtWeb)
+
+LessKeys.rootpath := "/src/mail/assets/stylesheets/"
+
 routesGenerator := InjectedRoutesGenerator
 
 scalacOptions ++= Seq(
