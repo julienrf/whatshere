@@ -1,0 +1,10 @@
+@(list: Seq[String])
+
+@layout {
+  <ul>
+  @for(place <- list){
+    <li>@place</li>
+  }
+  </ul>
+
+}

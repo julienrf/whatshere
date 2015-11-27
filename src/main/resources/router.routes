@@ -1,9 +1,9 @@
-GET      /login               wh.controllers.Authentication.login(redirectTo)
-POST     /login        wh.controllers.Authentication.authenticate(redirectTo)
-GET      /logout              wh.controllers.Authentication.logout
+GET         /login                  wh.controllers.Authentication.login(redirectTo)
+POST        /login                  wh.controllers.Authentication.authenticate(redirectTo)
+GET         /logout                 wh.controllers.Authentication.logout
 
-GET      /                    wh.controllers.WhatsHere.list
-GET      /recommendations     wh.controllers.WhatsHere.recommendations
+GET         /                       wh.controllers.WhatsHere.list
+GET         /recommendations        wh.controllers.WhatsHere.recommendations
 
-GET      /:name               wh.controllers.WhatsHere.show(name)
-POST     /:name/rate          wh.controllers.WhatsHere.rate(name)
+GET         /:name                  wh.controllers.WhatsHere.show(name)
+POST        /:name/rate             wh.controllers.WhatsHere.rate(name)
