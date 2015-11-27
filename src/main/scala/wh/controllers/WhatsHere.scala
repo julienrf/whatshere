@@ -5,7 +5,7 @@ import play.api.data.Forms.{single, number}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import wh.controllers.Authentication.Authenticated
-import wh.models.{Location, Locations, Ratings}
+import wh.models.{predictions, Location, Locations, Ratings}
 
 
 class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSupport {
@@ -16,8 +16,9 @@ class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSuppor
   }
 
   /** Show the list of recommended locations for the current user */
-  val recommendations = Authenticated {
-    val list = Seq("Chez moi", "Chez ma maman", "Dans un bar")
+  val recommendations = Authenticated { request =>
+    val predictionsMap = predictions.predict(request.user, Locations.current.locations, Ratings.current.single.apply())
+    val list = predictionsMap.toList.sortBy(_._2)
     Ok(wh.html.recommandation(list))
   }
 
@@ -29,7 +30,7 @@ class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSuppor
     }
   }
 
-  val rateForm = Form(single("rate" -> number(min = 0, max = 5)))
+  val rateForm = Form(single("rating" -> number(min = 0, max = 5)))
 
   /** Add the fact that the user rated the given location */
   def rate(locationName: String) = Authenticated { implicit request =>

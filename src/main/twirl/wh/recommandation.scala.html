@@ -1,10 +1,11 @@
-@(list: Seq[String])
+@import wh.models.Location
+@(list: List[(Location, Double)])
 
 @layout {
   <h2>Des lieux cools pour vous :</h2>
   <ul>
   @for(place <- list){
-    <li>@place</li>
+    <li><a href="/@{place._1.name}">@{place._1.name}</a><span>@{place._2}</span></li>
   }
   </ul>
 

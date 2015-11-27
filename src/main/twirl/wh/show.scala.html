@@ -9,11 +9,20 @@
     Un endroit vraiment stylé.
   </p>
 
-  @helper.form(wh.controllers.routes.WhatsHere.rate(locationName)){
+  <script>
+    function rate() {
+      document.forms.form.submit()
+    }
+  </script>
 
-    @helper.inputText(rateForm("rate"))
-
-    <input type="submit">
-
+  @helper.form(action = wh.controllers.routes.WhatsHere.rate(locationName), 'name -> "form"){
+    <fieldset class="rating">
+      <legend>Please rate:</legend>
+      <input type="radio" id="star5" name="rating" value="5" onclick="rate()"/><label for="star5" title="D'là beubom!">5 stars</label>
+      <input type="radio" id="star4" name="rating" value="4" onclick="rate()"/><label for="star4" title="Plutôt cool">4 stars</label>
+      <input type="radio" id="star3" name="rating" value="3" onclick="rate()"/><label for="star3" title="Pas top">3 stars</label>
+      <input type="radio" id="star2" name="rating" value="2" onclick="rate()"/><label for="star2" title="Plutôt naze">2 stars</label>
+      <input type="radio" id="star1" name="rating" value="1" onclick="rate()"/><label for="star1" title="Vraiment pourri">1 star</label>
+    </fieldset>
   }
 }
