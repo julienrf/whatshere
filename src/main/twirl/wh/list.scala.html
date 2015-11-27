@@ -4,7 +4,7 @@
 @layout {
   <ul>
   @for(place <- Locations.current.locations){
-    <li>@place</li>
+    <a href="/@{place.name.replaceAll(" ", "&")}">@{place.name}</a>
   }
   </ul>
 
