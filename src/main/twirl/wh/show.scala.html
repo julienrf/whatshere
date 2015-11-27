@@ -7,9 +7,8 @@
   <h2>Details du lieu: @locationName</h2>
   <h3>Note moyenne: @{Ratings.getRate(locationName)}</h3>
 
-  <p>
-    @Locations.current.findByName(locationName).fold("Un endroit vraiment stylé.")(_.description)
-  </p>
+  <p>@Locations.current.findByName(locationName).fold("Un endroit vraiment stylé.")(_.description)</p>
+  @Locations.current.findByName(locationName).map{ location => <img class="showImage" src="@location.imageUrl"> }
 
   <script>
     function rate() {
