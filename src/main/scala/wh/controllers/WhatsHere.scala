@@ -5,7 +5,7 @@ import play.api.data.Forms.{single, number}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Controller
 import wh.controllers.Authentication.Authenticated
-import wh.models.{predictions, Location, Locations, Ratings}
+import wh.models.{Locations, Ratings, predictions}
 
 
 class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSupport {

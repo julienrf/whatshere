@@ -40,12 +40,14 @@ object predictions {
 
         val weightedLocations: Map[Location, Double] =
           normalize(
-            othersRatings.to[Seq]
-              .flatMap { case (other, rs) =>
-                rs.map { case (location, rate) => (location, rate / (0.5 + distances.getOrElse(other, 0.5))) }
-              }.groupBy(_._1)
-              .mapValues(rs => rs.map(_._2).sum / rs.size),
-            min = 1,
+            locations.map { location =>
+              val locationWeightedRatings =
+                ratings.ratings
+                  .filter(_.location == location)
+                  .map(r => (r.rate - neutralRate) / (0.5 + distances.getOrElse(r.user, 0.5)))
+              location -> (locationWeightedRatings.sum / locationWeightedRatings.size)
+            }.toMap,
+            min = 0,
             max = 5
           )
 
