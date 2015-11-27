@@ -9,7 +9,7 @@ case class Ratings(ratings: List[Rating]) {
     */
   def addRating(user: User, location: Location, rate: Int): Option[Ratings] =
     if (ratings.exists(rating => rating.location == location && rating.user == user)) None
-    else Some(copy(ratings = Rating(user, location, rate) :: ratings))
+    else Some(copy(ratings = Rating(user, location, rate.toDouble) :: ratings))
 
 }
 
@@ -26,9 +26,9 @@ object Ratings {
      )
     )
 
-  def getRate(locationName: String): Int = {
+  def getRate(locationName: String): Double = {
     val rates = current.single.get.ratings
-      .filter(_.location.name.toLowerCase == locationName.toLowerCase().replaceAll("&", " "))
+      .filter(_.location.name == locationName)
       .map(_.rate)
     if(rates.nonEmpty) rates.sum / rates.length else 0
   }

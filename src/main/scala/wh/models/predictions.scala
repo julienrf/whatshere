@@ -9,9 +9,12 @@ object predictions {
   /**
     * @return Predicted ratings for a given user, locations and existing ratings.
     */
-  def predict(user: User, locations: List[Location], ratings: Ratings): Map[Location, Double] = {
+  def predict(user: User, locations: List[Location], _ratings: Ratings): Map[Location, Double] = {
+    val ratings =
+      _ratings.copy(locations.map(l => Rating(User("$factice"), l, neutralRate)) ++ _ratings.ratings)
+
     // Ratings of all users, only for locations already rated rated by user
-    val knownLocationsRatings: Map[User, List[(Location, Int)]] = {
+    val knownLocationsRatings: Map[User, List[(Location, Double)]] = {
       val knownLocations: Seq[Location] =
         ratings.ratings
           .filter(_.user == user)
@@ -60,20 +63,22 @@ object predictions {
     }
   }
 
-  def distance[A](as1: Seq[A], as2: Seq[A])(implicit num: Numeric[A]): Double = {
+  def distance[A](as1: Seq[Double], as2: Seq[Double]): Double = {
     require(as1.size == as2.size)
     math.sqrt(
       as1.zip(as2)
-        .map { case (a1, a2) => (num.toDouble(a1), num.toDouble(a2)) }
         .map { case (a1, a2) => (a2 - a1) * (a2 - a1) }
         .sum
     )
   }
 
   def normalize[A](map: Map[A, Double], min: Double = 0, max: Double = 1): Map[A, Double] = {
-    val minValue = map.values.min
-    val maxValue = map.values.max
-    map.mapValues(x => ((x - minValue) / (maxValue - minValue)) * (max - min) + min)
+    def scale(n: Double) = n * (max - min) + min
+    if (map.values.to[Seq].distinct.size <= 1) map.mapValues(_ => scale(0.5)) else {
+      val minValue = map.values.min
+      val maxValue = map.values.max
+      map.mapValues(x => scale((x - minValue) / (maxValue - minValue)))
+    }
   }
 
 }
