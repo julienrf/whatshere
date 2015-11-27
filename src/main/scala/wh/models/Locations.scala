@@ -11,7 +11,7 @@ object Locations {
     Locations(
       List(
         Location("Canal Saint-Martin"),
-        Location("Le Mal Barre"),
+        Location("Le Mal Barré"),
         Location("Tour Eiffel")
       )
     )
