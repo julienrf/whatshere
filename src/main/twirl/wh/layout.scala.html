@@ -20,9 +20,9 @@
   </head>
   <body>
       <div class="header">
-          <h1>What's Here?</h1>
-          @if(user.isDefined) {
-              <span>Trouve un endroit cool pas loin de toi @user.get.name.</span>
+          <h1>What's Here ?</h1>
+          @user.map { case u =>
+            <span>Trouve un endroit cool pas loin de toi @u.name.</span>
           }
       </div>
       <div class="content">
