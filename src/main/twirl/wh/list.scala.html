@@ -1,7 +1,8 @@
 @import wh.models.Locations
-@()
+@import wh.models.User
+@(user: Option[User])
 
-@layout {
+@layout(user) {
   <div class="list">
     <ul>
     @for(place <- Locations.current.locations){

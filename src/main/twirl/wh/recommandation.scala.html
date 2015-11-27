@@ -1,7 +1,8 @@
 @import wh.models.Location
-@(list: List[(Location, Double)])
+@import wh.models.User
+@(list: List[(Location, Double)], user: Option[User])
 
-@layout {
+@layout(user) {
   <h2>Des lieux cools pour vous :</h2>
   <ul>
   @for(place <- list){

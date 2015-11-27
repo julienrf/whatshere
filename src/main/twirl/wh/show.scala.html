@@ -1,7 +1,8 @@
 @import wh.models.Ratings
-@(locationName: String, rateForm: Form[Int])(implicit messages: Messages)
+@import wh.models.User
+@(locationName: String, user: Option[User])(implicit messages: Messages)
 
-@layout {
+@layout(user) {
   <h2>Details du lieu: @locationName</h2>
   <h3>Note: @{Ratings.getRate(locationName)}</h3>
 

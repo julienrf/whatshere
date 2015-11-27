@@ -1,4 +1,5 @@
-@(body: Html)
+@import wh.models.User
+@(user: Option[User])(body: Html)
 <!DOCTYPE html>
 <html>
   <head>
@@ -18,7 +19,12 @@
     <title>What’s Here?</title>
   </head>
   <body>
-      <div class="header">What's Here ?</div>
+      <div class="header">
+          <h1>What's Here ?</h1>
+          @if(user.isDefined) {
+              <span>Trouve un endroit cool pas loin de toi @user.get.name.</span>
+          }
+      </div>
       <div class="content">
           @body
       </div>

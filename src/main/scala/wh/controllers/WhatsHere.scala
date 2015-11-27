@@ -11,22 +11,22 @@ import wh.models.{Locations, Ratings, predictions}
 class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   /** (temporary) Show all registered locations */
-  val list = Authenticated {
-    Ok(wh.html.list())
+  val list = Authenticated { request =>
+    Ok(wh.html.list(Some(request.user)))
   }
 
   /** Show the list of recommended locations for the current user */
   val recommendations = Authenticated { request =>
     val predictionsMap = predictions.predict(request.user, Locations.current.locations, Ratings.current.single.apply())
     val list = predictionsMap.toList.sortBy(_._2)
-    Ok(wh.html.recommandation(list))
+    Ok(wh.html.recommandation(list, Some(request.user)))
   }
 
   /** Show the details of one location, so that the user can like it */
-  def show(locationName: String) = Authenticated {
+  def show(locationName: String) = Authenticated { request =>
     Locations.current.findByName(locationName) match {
       case None => NotFound
-      case Some(location) => Ok(wh.html.show(locationName, rateForm))
+      case Some(location) => Ok(wh.html.show(locationName, Some(request.user)))
     }
   }
 
@@ -38,7 +38,7 @@ class WhatsHere(val messagesApi: MessagesApi) extends Controller with I18nSuppor
       case None => NotFound
       case Some(location) =>
         rateForm.bindFromRequest().fold(
-          errors => BadRequest(wh.html.show(locationName, rateForm)),
+          errors => BadRequest(wh.html.show(locationName, Some(request.user))),
           rate => {
             Ratings.current.single.transformIfDefined(Function.unlift((ratings: Ratings) => ratings.addRating(request.user, location, rate)))
             Redirect(routes.WhatsHere.show(locationName))
