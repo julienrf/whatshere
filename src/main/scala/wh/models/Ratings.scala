@@ -8,8 +8,10 @@ case class Ratings(ratings: List[Rating]) {
     * @return An updated `Ratings` containing the given rating if `user` has not yet rated `location`, otherwise `None`
     */
   def addRating(user: User, location: Location, rate: Int): Option[Ratings] =
-    if (ratings.exists(rating => rating.location == location && rating.user == user)) None
-    else Some(copy(ratings = Rating(user, location, rate.toDouble) :: ratings))
+    if (ratings.exists(rating => rating.location == location && rating.user == user)) {
+      val rs = ratings.filterNot(rating => rating.location == location && rating.user == user)
+      Some(copy(ratings = Rating(user, location, rate.toDouble) :: rs))
+    } else Some(copy(ratings = Rating(user, location, rate.toDouble) :: ratings))
 
 }
 
