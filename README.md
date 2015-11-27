@@ -1,0 +1,5 @@
+# Setup
+
+~~~ sh
+$ sbt run
+~~~
