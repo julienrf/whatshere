@@ -1,7 +1,10 @@
 package wh.controllers
 
+import play.api.data.Form
+import play.api.data.Forms.{single, number}
 import play.api.mvc.Controller
 import wh.controllers.Authentication.Authenticated
+import wh.models.{Locations, Ratings}
 
 class WhatsHere extends Controller {
 
@@ -23,9 +26,21 @@ class WhatsHere extends Controller {
     Ok(wh.html.show(locationName))
   }
 
+  val rateForm = Form(single("rate" -> number(min = 1, max = 5)))
+
   /** Add the fact that the user rated the given location */
-  def rate(locationName: String) = Authenticated {
-    NotImplemented
+  def rate(locationName: String) = Authenticated { implicit request =>
+    Locations.current.findByName(locationName) match {
+      case None => NotFound
+      case Some(location) =>
+        rateForm.bindFromRequest().fold(
+          errors => BadRequest(wh.html.show(locationName)),
+          rate => {
+            Ratings.current.single.transformIfDefined(Function.unlift((ratings: Ratings) => ratings.addRating(request.user, location, rate)))
+            Redirect(routes.WhatsHere.show(locationName))
+          }
+        )
+    }
   }
 
 }
